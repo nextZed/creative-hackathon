@@ -4,5 +4,7 @@ import { langRu } from 'shared/const'
 
 countries.registerLocale(countriesRu)
 
-export const formatCountry = (countryCode: string | number, currentLang = langRu) =>
-  countries.getName(countryCode, currentLang)
+export const formatCountry = (
+  countryCode?: string | number,
+  currentLang = langRu
+) => countryCode && countries.getName(countryCode, currentLang)

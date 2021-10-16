@@ -14,10 +14,16 @@
     0 6px 10px 0 rgba(145, 158, 171, 0.14),
     0 1px 18px 0 rgba(145, 158, 171, 0.12);
   padding: 8px 16px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
+}
+
+#globe #globeTooltip div {
+  color: red;
+  font-weight: bold;
 }
 
 #pie text {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
   font-weight: 400 !important;
-  font-size: 1rem !important;
+  /*font-size: 1rem !important;*/
 }

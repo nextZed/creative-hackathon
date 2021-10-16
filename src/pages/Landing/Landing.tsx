@@ -10,22 +10,25 @@ import {
 import useTheme from '@mui/material/styles/useTheme'
 import { CovidContext, CovidFeature, LoaderContext } from 'core/context'
 import Grid from '@mui/material/Grid'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { DEFAULT_SPACE } from 'shared/const'
+import { Store } from 'App.types'
 import { scaleLinear } from 'd3-scale'
+import { DEFAULT_SPACE } from 'shared/const'
 import { formatCountry } from 'shared/i18n'
+import { useMobile } from 'shared/hooks'
+import { formatShortNumber } from 'shared/utils'
 import { casesPercent } from './Landing.utils'
 import { POV_CHANGE_DUR } from './Landing.const'
 import { LandingGraphs } from './components'
 
 export const Landing = () => {
-  const [configured, setConfigured] = useState(false)
-  const { regions, setChosenRegion } = useContext(CovidContext)
+  const { regions, setChosenRegion, chosenRegion } = useContext(CovidContext)
   const { setLoaderState } = useContext(LoaderContext)
+  const [configured, setConfigured] = useState(false)
+  const [hoverPolygon, setHoverPolygon] = useState<Store | null>(null);
   const theme = useTheme()
+  const isMobile = useMobile()
   const globeRef = useRef<GlobeMethods>()
   const globeOuterRef = useRef<HTMLDivElement>(null)
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const maxVal = useMemo(
     () => regions && Math.max(...regions.map(casesPercent)),
@@ -38,23 +41,26 @@ export const Landing = () => {
 
   const handlePolygonClick = useCallback(
     (feature: any) => {
-      const lat = feature?.properties?.countryInfo?.lat
-      const lng = feature?.properties?.countryInfo?.long
-      if (lat && lng) {
-        setChosenRegion(feature as CovidFeature)
-        // @ts-ignore
-        globeRef.current.controls().autoRotate = false
-        globeRef.current?.pointOfView(
-          {
-            lat,
-            lng,
-          },
-          POV_CHANGE_DUR
-        )
-      }
+      setChosenRegion(feature as CovidFeature)
     },
-    [setChosenRegion, globeRef.current]
+    [setChosenRegion]
   )
+
+  useEffect(() => {
+    const lat = chosenRegion?.properties?.countryInfo?.lat
+    const lng = chosenRegion?.properties?.countryInfo?.long
+    if (lat && lng) {
+      // @ts-ignore
+      globeRef.current.controls().autoRotate = false
+      globeRef.current?.pointOfView(
+        {
+          lat,
+          lng,
+        },
+        POV_CHANGE_DUR
+      )
+    }
+  }, [chosenRegion])
 
   useEffect(() => {
     if (globeRef.current && !configured) {
@@ -70,9 +76,10 @@ export const Landing = () => {
 
   return regions ? (
     <Grid container spacing={DEFAULT_SPACE}>
-      <Grid item xs={12} sm={6} id="globe" ref={globeOuterRef}>
+      <Grid item sm={12} lg={6} id="globe" ref={globeOuterRef}>
         <Globe
           showGlobe={false}
+          // globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
           showAtmosphere={false}
           width={globeOuterRef.current?.clientWidth}
           height={isMobile ? window.innerWidth : window.innerHeight - 200}
@@ -80,15 +87,22 @@ export const Landing = () => {
           onGlobeReady={() => setLoaderState(false)}
           ref={globeRef}
           polygonSideColor={() => 'rgba(0, 0, 0, 0)'}
-          polygonCapColor={(f: any) => colorScale(casesPercent(f))}
+          polygonCapColor={(f: any) => f !== hoverPolygon ? colorScale(casesPercent(f)) : theme.palette.primary.main}
           polygonsData={regions}
           polygonStrokeColor={() => theme.palette.background.default}
-          polygonLabel={({ properties }: any) => `<div id="globeTooltip">${formatCountry(properties.iso_n3)}</div>`}
+          polygonLabel={(f: any) =>
+            `<div id="globeTooltip">
+              ${formatCountry(f.properties.iso_n3)}
+              <div>${formatShortNumber(f.properties.cases)}</div>
+              <div>${casesPercent(f).toFixed(2)}%</div>
+            </div>`
+          }
           onPolygonClick={handlePolygonClick}
+          onPolygonHover={setHoverPolygon}
         />
       </Grid>
 
-      <Grid item xs={12} sm={6}>
+      <Grid item sm={12} lg={6}>
         <LandingGraphs />
       </Grid>
     </Grid>

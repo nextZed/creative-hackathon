@@ -1,10 +1,10 @@
 import { useState, FC, memo, useCallback, useContext, useEffect } from 'react'
 
 import { Covid19WorldometersService, covidAll } from 'shared/api'
-import { FeatureCollection } from 'geojson'
+import { FeatureCollection, Geometry } from 'geojson'
 import { LoaderContext } from 'core/context/Loader'
 import { CovidContext } from './CovidContext'
-import { CovidFeature, CovidFeatures } from './CovidContext.types'
+import { CovidFeature, CovidFeatures, GeoCountry } from './CovidContext.types'
 
 export const CovidContextProvider: FC = memo(({ children }) => {
   const { setLoaderState } = useContext(LoaderContext)
@@ -19,7 +19,7 @@ export const CovidContextProvider: FC = memo(({ children }) => {
       // TODO убрать после показа
       await new Promise((res) => setTimeout(res, 1000))
 
-      const geoJson: FeatureCollection = await fetch(
+      const geoJson: FeatureCollection<Geometry, GeoCountry> = await fetch(
         '/countries.geo.json'
       ).then((res) => res.json())
       const covidRegionsData =
@@ -43,7 +43,8 @@ export const CovidContextProvider: FC = memo(({ children }) => {
         }, [])
       await setRegions(newCovidFeatures)
 
-      const covidTotalData = await Covid19WorldometersService.getCovid19WorldometersService({})
+      const covidTotalData =
+        await Covid19WorldometersService.getCovid19WorldometersService({})
       setTotal(covidTotalData)
     } finally {
       console.log('covid data ready')
@@ -55,7 +56,14 @@ export const CovidContextProvider: FC = memo(({ children }) => {
   }, [])
 
   return (
-    <CovidContext.Provider value={{ total, regions, setChosenRegion, chosenRegion }}>
+    <CovidContext.Provider
+      value={{
+        total,
+        regions,
+        setChosenRegion,
+        chosenRegion,
+      }}
+    >
       {children}
     </CovidContext.Provider>
   )

@@ -56,9 +56,12 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'no-console': 0,
     'import/no-unresolved': 0,
-    // Нет времени разбираться в ошибках либ
+    'react/jsx-props-no-spreading': 0,
+    'import/named': 0,
+    // Нет времени стрелять себе в колено
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     'import/no-extraneous-dependencies': 0,
+    'camelcase': 0,
   },
 }

@@ -1,6 +1,5 @@
 import Paper from '@mui/material/Paper'
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import useTheme from '@mui/material/styles/useTheme'
 import { parsePx } from 'shared/utils'
@@ -8,23 +7,23 @@ import { useContext, useMemo } from 'react'
 import { CovidContext } from 'core/context'
 import { ResponsivePie } from '@nivo/pie'
 import { createStep } from './LandingGraphs.utils'
-import { Tooltip } from './components'
+import { CountrySelector, Tooltip } from './components'
 
 export const LandingGraphs = () => {
-  const { chosenRegion } = useContext(CovidContext)
+  const { chosenRegion, total } = useContext(CovidContext)
   const theme = useTheme()
   const mg = parsePx(theme.spacing(4))
-  console.log(chosenRegion)
+
   const data = useMemo(
-    () =>
-      chosenRegion
-        ? [
-            createStep(chosenRegion, 'casesPerOneMillion'),
-            createStep(chosenRegion, 'deathsPerOneMillion'),
-            createStep(chosenRegion, 'recoveredPerOneMillion'),
-          ]
-        : undefined,
-    [chosenRegion]
+    () => {
+      const originData = chosenRegion?.properties || total
+      return originData ? [
+          createStep(originData, 'cases'),
+          createStep(originData, 'deaths'),
+          createStep(originData, 'recovered')
+        ] : undefined
+    },
+    [chosenRegion, total]
   )
 
   console.log(data)
@@ -32,7 +31,7 @@ export const LandingGraphs = () => {
   return (
     <Paper elevation={6}>
       <Card>
-        <CardHeader title="Россия" />
+        <CardContent sx={{ px: 4 }}><CountrySelector /></CardContent>
         <CardContent sx={{ height: '400px' }} id="pie">
           {data && (
             <ResponsivePie

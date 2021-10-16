@@ -1,7 +1,7 @@
 import Paper from '@mui/material/Paper'
 import InfoIcon from '@mui/icons-material/Info'
 import Typography from '@mui/material/Typography'
-import { getValueFormatter } from '@nivo/core'
+import { formatShortNumber } from 'shared/utils'
 import { TooltipProps } from './Tooltip.types'
 
 export const Tooltip = ({ value, label }: TooltipProps) => (
@@ -11,7 +11,7 @@ export const Tooltip = ({ value, label }: TooltipProps) => (
       {`${label}:`}
     </Typography>
     <Typography variant="body1" component="span" sx={{ ml: 0.5 }}>
-      <b>{getValueFormatter('>-.4s')(value)}</b>
+      <b>{formatShortNumber(value)}</b>
     </Typography>
   </Paper>
 )
