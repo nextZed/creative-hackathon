@@ -1,4 +1,4 @@
 export interface DrawerProps {
-  mobileOpen: boolean
+  open: boolean
   onDrawerToggle: () => void
 }

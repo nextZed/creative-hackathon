@@ -1,16 +1,19 @@
 import { HashRouter as Router } from 'react-router-dom'
-import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material'
-import { ThemeProvider as ScThemeProvider } from 'styled-components'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import CssBaseline from '@mui/material/CssBaseline'
 import { lightTheme } from 'themes'
-import { Routing } from './routing'
+import { Routing } from 'routing'
+import { Navigation, Main } from 'core/components'
+import './App.css'
 
 export const App = () => (
-  <MuiThemeProvider theme={lightTheme}>
-    <ScThemeProvider theme={lightTheme}>
-      <CssBaseline />
-      <Router>
+  <ThemeProvider theme={lightTheme}>
+    <CssBaseline />
+    <Router>
+      <Navigation />
+      <Main>
         <Routing />
-      </Router>
-    </ScThemeProvider>
-  </MuiThemeProvider>
+      </Main>
+    </Router>
+  </ThemeProvider>
 )

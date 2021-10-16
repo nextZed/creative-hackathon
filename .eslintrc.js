@@ -53,5 +53,12 @@ module.exports = {
     '@typescript-eslint/no-shadow': ['error'],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    'no-console': 0,
+    'import/no-unresolved': 0,
+    // Нет времени разбираться в ошибках либ
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
+    'import/no-extraneous-dependencies': 0,
   },
 }

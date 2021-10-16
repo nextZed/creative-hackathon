@@ -7,3 +7,4 @@ export enum Breakpoint {
 }
 
 export const DRAWER_WIDTH = 240
+export const DEFAULT_SPACE = { xs: 2, sm: 4, lg: 8 }

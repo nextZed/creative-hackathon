@@ -1,46 +1,34 @@
 import { DRAWER_WIDTH } from 'shared/const'
-import { Box, Drawer as MuiDrawer } from '@mui/material'
+import Box from '@mui/material/Box'
+import MuiDrawer from '@mui/material/Drawer'
+import { SxProps } from '@mui/system'
+import { Theme } from '@mui/material'
 import { DrawerProps } from './Drawer.types'
 import { Menu } from '../Menu'
 
-export const Drawer = ({ mobileOpen, onDrawerToggle }: DrawerProps) => {
+const boxSx = { width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }
+const muiDrawerSx: SxProps<Theme> = {
+  '& .MuiDrawer-paper': {
+    boxSizing: 'border-box',
+    minWidth: DRAWER_WIDTH,
+  },
+}
+
+export const Drawer = ({ open, onDrawerToggle }: DrawerProps) => {
   const container =
     window !== undefined ? () => window.document.body : undefined
 
   return (
-    <Box
-      component="nav"
-      sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
-      aria-label="mailbox folders"
-    >
+    <Box component="nav" sx={boxSx}>
       <MuiDrawer
         container={container}
         variant="temporary"
-        open={mobileOpen}
+        open={open}
         onClose={onDrawerToggle}
         ModalProps={{
           keepMounted: true,
         }}
-        sx={{
-          display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: DRAWER_WIDTH,
-          },
-        }}
-      >
-        <Menu />
-      </MuiDrawer>
-      <MuiDrawer
-        variant="permanent"
-        sx={{
-          display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: DRAWER_WIDTH,
-          },
-        }}
-        open
+        sx={muiDrawerSx}
       >
         <Menu />
       </MuiDrawer>
