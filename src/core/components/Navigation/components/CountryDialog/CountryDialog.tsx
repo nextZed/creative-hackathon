@@ -53,7 +53,6 @@ export const CountryDialog = (props: DialogProps) => {
       <DialogContent>
         <Autocomplete
           id="countrySelect"
-          openOnFocus
           options={options}
           sx={{ mt: 1, mb: 1 }}
           fullWidth
