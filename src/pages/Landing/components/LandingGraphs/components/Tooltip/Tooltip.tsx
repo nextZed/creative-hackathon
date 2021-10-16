@@ -4,8 +4,8 @@ import Typography from '@mui/material/Typography'
 import { formatShortNumber } from 'shared/utils'
 import { TooltipProps } from './Tooltip.types'
 
-export const Tooltip = ({ value, label }: TooltipProps) => (
-  <Paper elevation={6} sx={{ p: 2, display: 'inline-flex', alignItems: 'center' }}>
+export const Tooltip = ({ value, label, disable }: TooltipProps) => !disable ? (
+  <Paper elevation={6} sx={{ p: 2, display: 'inline-flex', alignItems: 'center', zIndex: 99 }}>
     <InfoIcon sx={{ mr: 1 }} />
     <Typography variant="body1" component="span">
       {`${label}:`}
@@ -14,4 +14,4 @@ export const Tooltip = ({ value, label }: TooltipProps) => (
       <b>{formatShortNumber(value)}</b>
     </Typography>
   </Paper>
-)
+) : null

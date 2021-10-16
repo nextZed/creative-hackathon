@@ -1,17 +1,18 @@
-import { useCallback, useState } from 'react'
-import { Drawer, Header } from './components'
+import { Header } from './components'
 
-export const Navigation = () => {
-  const [open, setOpen] = useState(false)
+// export const Navigation = () => {
+//   const [open, setOpen] = useState(false)
+//
+//   const handleDrawerToggle = useCallback(() => {
+//     setOpen((prev) => !prev)
+//   }, [])
+//
+//   return (
+//     <>
+//       <Header />
+//       <Drawer onDrawerToggle={handleDrawerToggle} open={open} />
+//     </>
+//   )
+// }
 
-  const handleDrawerToggle = useCallback(() => {
-    setOpen((prev) => !prev)
-  }, [])
-
-  return (
-    <>
-      <Header onDrawerToggle={handleDrawerToggle} />
-      <Drawer onDrawerToggle={handleDrawerToggle} open={open} />
-    </>
-  )
-}
+export const Navigation = Header

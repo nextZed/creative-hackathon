@@ -5,15 +5,21 @@ import { lightTheme } from 'themes'
 import { Routing } from 'routing'
 import { Navigation, Main } from 'core/components'
 import './App.css'
+import { CovidContextProvider, LoaderContextProvider } from 'core/context'
 
 export const App = () => (
   <ThemeProvider theme={lightTheme}>
     <CssBaseline />
-    <Router>
-      <Navigation />
-      <Main>
-        <Routing />
-      </Main>
-    </Router>
+
+    <LoaderContextProvider>
+      <CovidContextProvider>
+        <Router>
+          <Navigation />
+          <Main>
+            <Routing />
+          </Main>
+        </Router>
+      </CovidContextProvider>
+    </LoaderContextProvider>
   </ThemeProvider>
 )

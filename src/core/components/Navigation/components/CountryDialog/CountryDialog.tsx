@@ -12,8 +12,8 @@ import sortBy from 'lodash.sortby'
 import { useCallback, useContext, useMemo, useState } from 'react'
 import { CovidContext } from 'core/context'
 import Button from '@mui/material/Button'
-import { allWorldId } from './CountryDialog.const'
-import { Value } from './CountryDialog.types'
+import { allWorldId } from 'core/components/Navigation/components/CountryDialog/CountryDialog.const'
+import { Value } from 'core/components/Navigation/components/CountryDialog/CountryDialog.types'
 
 export const CountryDialog = (props: DialogProps) => {
   const { regions, setChosenRegion } = useContext(CovidContext)

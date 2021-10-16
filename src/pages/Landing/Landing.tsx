@@ -24,7 +24,7 @@ export const Landing = () => {
   const { regions, setChosenRegion, chosenRegion } = useContext(CovidContext)
   const { setLoaderState } = useContext(LoaderContext)
   const [configured, setConfigured] = useState(false)
-  const [hoverPolygon, setHoverPolygon] = useState<Store | null>(null);
+  const [hoverPolygon, setHoverPolygon] = useState<Store | null>(null)
   const theme = useTheme()
   const isMobile = useMobile()
   const globeRef = useRef<GlobeMethods>()
@@ -76,7 +76,7 @@ export const Landing = () => {
 
   return regions ? (
     <Grid container spacing={DEFAULT_SPACE}>
-      <Grid item sm={12} lg={6} id="globe" ref={globeOuterRef}>
+      <Grid item xs={12} lg={6} id="globe" ref={globeOuterRef}>
         <Globe
           showGlobe={false}
           // globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
@@ -87,22 +87,26 @@ export const Landing = () => {
           onGlobeReady={() => setLoaderState(false)}
           ref={globeRef}
           polygonSideColor={() => 'rgba(0, 0, 0, 0)'}
-          polygonCapColor={(f: any) => f !== hoverPolygon ? colorScale(casesPercent(f)) : theme.palette.primary.main}
+          polygonCapColor={(f: any) =>
+            (f === hoverPolygon && !isMobile) ? theme.palette.primary.main : colorScale(casesPercent(f))
+          }
           polygonsData={regions}
           polygonStrokeColor={() => theme.palette.background.default}
           polygonLabel={(f: any) =>
-            `<div id="globeTooltip">
+            !isMobile
+              ? `<div id="globeTooltip">
               ${formatCountry(f.properties.iso_n3)}
               <div>${formatShortNumber(f.properties.cases)}</div>
               <div>${casesPercent(f).toFixed(2)}%</div>
             </div>`
+              : ''
           }
           onPolygonClick={handlePolygonClick}
           onPolygonHover={setHoverPolygon}
         />
       </Grid>
 
-      <Grid item sm={12} lg={6}>
+      <Grid item xs={12} lg={6}>
         <LandingGraphs />
       </Grid>
     </Grid>

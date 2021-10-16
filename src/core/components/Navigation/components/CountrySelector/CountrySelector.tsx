@@ -1,11 +1,10 @@
 import { useCallback, useContext, useMemo, useState } from 'react'
-import Typography from '@mui/material/Typography'
 import { CovidContext } from 'core/context'
 import { formatCountry, MESSAGES } from 'shared/i18n'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { useMobile } from 'shared/hooks'
-import { CountryDialog } from '../CountryDialog'
+import { CountryDialog } from 'core/components/Navigation/components/CountryDialog'
 
 export const CountrySelector = () => {
   const [open, setOpen] = useState(false)
@@ -17,16 +16,20 @@ export const CountrySelector = () => {
   }, [])
 
   const currentTitle = useMemo(
-    () => formatCountry(chosenRegion?.properties.iso_n3) || MESSAGES.ALL_WORLD,
+    () => {
+      const formattedCountry = formatCountry(chosenRegion?.properties.iso_n3)
+      if (!formattedCountry) return MESSAGES.ALL_WORLD
+      // Мне за это стыдно, но времени нет
+      if (formattedCountry === 'КНР (Китайская Народная Республика)') return 'КНР'
+      return formatCountry(chosenRegion?.properties.iso_n3)
+    },
     [chosenRegion]
   )
 
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Button variant="outlined" onClick={handleOpenChange}>{MESSAGES.LOCATION}</Button>
-        <Typography variant="h6" sx={{ ml: 1 }}>{currentTitle}</Typography>
-        <Typography variant="caption" color="gray" ml="auto">({MESSAGES.ALL_TIME})</Typography>
+        <Button variant="outlined" onClick={handleOpenChange}>{currentTitle}</Button>
       </Box>
       <CountryDialog fullScreen={isMobile} open={open} onClose={handleOpenChange}/>
     </>
