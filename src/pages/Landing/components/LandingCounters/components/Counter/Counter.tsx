@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import { CounterProps } from './Counter.types'
 
 export const Counter = ({ label, value, icon: Icon, color }: CounterProps) => (
-  <Paper elevation={6}>
+  <Paper elevation={6} sx={{ height: '100%' }}>
     <Card>
       <CardContent>
         <Typography
