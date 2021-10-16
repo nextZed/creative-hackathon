@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ResponsivePie } from '@nivo/pie'
 import { useMobile } from 'shared/hooks'
+import { MESSAGES } from 'shared/i18n'
 import { createStep } from './LandingGraphs.utils'
 import { Tooltip } from './components'
 
@@ -38,16 +39,24 @@ export const LandingGraphs = () => {
   return (
     <Paper elevation={6}>
       <Card>
-        {isMobile && (
-          <Box sx={{ px: 1, pt: 2, pb: 2 }}>
-            {data?.map((el, i) => (
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <InfoIcon sx={{ color: colors[i], mr: 0.5 }} />
-                <Typography>{el.label}: <b>{formatShortNumber(el.value)}</b></Typography>
-              </Box>
-            ))}
-          </Box>
-        )}
+        <CardContent>
+          <Typography
+            variant="caption"
+            sx={{ textTransform: 'lowercase', display: 'block' }}
+          >
+            {MESSAGES.TOTAL}
+          </Typography>
+          {isMobile && (
+            <Box sx={{ px: 1, pt: 2, pb: 2 }}>
+              {data?.map((el, i) => (
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <InfoIcon sx={{ color: colors[i], mr: 0.5 }} />
+                  <Typography>{el.label}: <b>{formatShortNumber(el.value)}</b></Typography>
+                </Box>
+              ))}
+            </Box>
+          )}
+        </CardContent>
         <CardContent sx={{ height: '400px' }} id="pie">
           {data && (
             <ResponsivePie

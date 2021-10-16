@@ -23,4 +23,5 @@ export type covidAll = {
   recoveredPerOneMillion: number
   criticalPerOneMillion: number
   affectedCountries: number
+  todayDeaths: number
 }

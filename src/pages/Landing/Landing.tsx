@@ -16,9 +16,10 @@ import { DEFAULT_SPACE } from 'shared/const'
 import { formatCountry } from 'shared/i18n'
 import { useMobile } from 'shared/hooks'
 import { formatShortNumber } from 'shared/utils'
+import Box from '@mui/material/Box'
 import { casesPercent } from './Landing.utils'
 import { POV_CHANGE_DUR } from './Landing.const'
-import { LandingGraphs } from './components'
+import { LandingGraphs, LandingCounters } from './components'
 
 export const Landing = () => {
   const { regions, setChosenRegion, chosenRegion } = useContext(CovidContext)
@@ -108,6 +109,8 @@ export const Landing = () => {
 
       <Grid item xs={12} lg={6}>
         <LandingGraphs />
+        <Box sx={{ mt: 2 }}/>
+        <LandingCounters />
       </Grid>
     </Grid>
   ) : null
