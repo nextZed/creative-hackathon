@@ -54,11 +54,7 @@ export const LandingGraphs = () => {
               data={data}
               margin={{ top: mg, right: mg, bottom: mg, left: mg }}
               valueFormat=">-.4s"
-              colors={[
-                theme.palette.warning.main,
-                theme.palette.error.main,
-                theme.palette.success.main,
-              ]}
+              colors={colors}
               motionConfig="wobbly"
               enableArcLabels={isMobile}
               arcLinkLabel="label"
